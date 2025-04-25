@@ -6,7 +6,7 @@
 /*   By: dbriant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:42:02 by dbriant           #+#    #+#             */
-/*   Updated: 2025/04/24 23:34:55 by dbriant          ###   ########.fr       */
+/*   Updated: 2025/04/25 21:26:48 by dbriant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -40,13 +40,14 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-static	char	*ft_createnewstr(ssize_t len)
+static	char	*ft_newstr(ssize_t len)
 {
 	char	*new;
 
 	new = malloc((sizeof(char) * len) + 1);
+	new[len] = '\0';
 	while (len)
-		new[len--] = '\0';
+		new[--len] = '\0';
 	return (new);
 }
 
@@ -67,7 +68,7 @@ char	*ft_realloc(char *new, char *buff, ssize_t len)
 	len = len + strlen;
 	if (b)
 		len = b + strlen;
-	new = ft_createnewstr(len);
+	new = ft_newstr(len);
 	if (old == NULL)
 		return (ft_strlcpy(new, buff, len));
 	while (*old != '\0')
@@ -82,7 +83,7 @@ char	*ft_realloc(char *new, char *buff, ssize_t len)
 void	ft_cleanbuff(char *buff, size_t size)
 {
 	size_t	buffsize;
-
+	
 	buffsize = BUFFER_SIZE;
 	while (size < buffsize)
 		buff[size++] = '\0';

@@ -6,7 +6,7 @@
 /*   By: dbriant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 21:15:42 by dbriant           #+#    #+#             */
-/*   Updated: 2025/04/25 08:12:57 by dbriant          ###   ########.fr       */
+/*   Updated: 2025/04/25 21:24:57 by dbriant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*ft_strlcpy(char *dest, char *src, size_t len)
 		dest[i] = src[i];
 		i++;
 	}
+	dest[i] = '\0';
 	src = NULL;
 	return (dest);
 }
@@ -39,10 +40,8 @@ size_t	ft_checkifnewline(char *buff)
 	len = 0;
 	while (buff[len] != '\0')
 	{
-		//printf("Index: %ld, buff: %c\n", len, buff[len]);
-		if (buff[len] == '\n')
-			return (++len);
-		len++;
+		if (buff[len++] == '\n')
+			return (len);
 	}
 	buff = NULL;
 	return (0);
@@ -89,12 +88,13 @@ static	char	*ft_createnewstring(char *new, char *buff)
 
 char	*get_next_line(int fd)
 {
-	static char	buff[BUFFER_SIZE];
+	static char	buff[BUFFER_SIZE + 1];
 	char		*new;
 	ssize_t		i;
 	size_t		linelen;
 
 	new = NULL;
+	buff[BUFFER_SIZE] = '\0';
 	linelen = ft_checkcurrentbuff(buff);
 	if (linelen)
 		return (ft_copynewline(buff, linelen));
@@ -114,15 +114,17 @@ char	*get_next_line(int fd)
 	}
 	return (new);
 }
-
+/*
 int	main(void)
 {
 	size_t	i = 0;
 	int	fd = open("test.txt", O_RDONLY);
-	while (i < 2)
+	while (i < 1)
 	{
-		printf("%s", get_next_line(fd));
-		//get_next_line(fd);
+		//printf("%s", get_next_line(fd));
+		char *str = get_next_line(fd);
+		free(str);
 		i++;
 	}
 }
+*/
