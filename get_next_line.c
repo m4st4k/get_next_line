@@ -6,7 +6,7 @@
 /*   By: dbriant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 21:15:42 by dbriant           #+#    #+#             */
-/*   Updated: 2025/04/24 23:25:27 by dbriant          ###   ########.fr       */
+/*   Updated: 2025/04/25 08:12:57 by dbriant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ size_t	ft_checkifnewline(char *buff)
 	len = 0;
 	while (buff[len] != '\0')
 	{
+		//printf("Index: %ld, buff: %c\n", len, buff[len]);
 		if (buff[len] == '\n')
 			return (++len);
 		len++;
@@ -56,7 +57,10 @@ static	size_t	ft_checkcurrentbuff(char *buff)
 	i = 0;
 	isnewline = ft_checkifnewline(buff);
 	if (isnewline == 0)
+	{
+		ft_cleanbuff(buff, 0);
 		return (0);
+	}
 	while (buff[i + isnewline] != '\0')
 		i++;
 	temp = malloc((sizeof(char) * i) + 1);
@@ -110,16 +114,15 @@ char	*get_next_line(int fd)
 	}
 	return (new);
 }
-/*
+
 int	main(void)
 {
 	size_t	i = 0;
 	int	fd = open("test.txt", O_RDONLY);
-	while (i < 5)
+	while (i < 2)
 	{
 		printf("%s", get_next_line(fd));
 		//get_next_line(fd);
 		i++;
 	}
 }
-*/
